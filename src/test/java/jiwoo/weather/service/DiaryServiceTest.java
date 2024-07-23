@@ -34,7 +34,6 @@ class DiaryServiceTest {
                     .temperature(15d)
                     .text("hello2")
                     .date(LocalDate.parse("2022-07-23")).
-
                     build()
     );
 
@@ -48,16 +47,56 @@ class DiaryServiceTest {
     @Test
     void readDiariesSuccess() {
 
-        //given
-        given(diaryRepository.save(diaries.get(0))).willReturn(diaries.get(0));
-        //given
-        given(diaryRepository.findAll()).willReturn(diaries);
+        given(diaryRepository.findAllByDateBetween(LocalDate.parse("2022-07-22"),LocalDate.parse("2022-07-23")))
+                .willReturn(diaries);
 
-        //when
-        List<Diary> diaryTest=diaryService.readDiaries(LocalDate.parse("2022-07-22"),LocalDate.parse("2022-07-23"));
+        List<Diary> diaryDto=diaryService.readDiaries(LocalDate.parse("2022-07-22"),LocalDate.parse("2022-07-23"));
 
-        assertEquals(diaries,diaryTest);
+        //then
+        assertEquals(diaryDto.get(0).getIcon(),"icon1");
 
     }
+
+    @Test
+    void readDiarySuccess(){
+
+        List<Diary> listofDiary=List.of(
+                Diary.builder().
+                        weather("humid").
+                        icon("icon1")
+                        .temperature(10d)
+                        .text("hello")
+                        .date(LocalDate.parse("2022-07-22")).
+                        build()
+
+        );
+
+        given(diaryRepository.findByDate(LocalDate.parse("2022-07-22")))
+                .willReturn(listofDiary);
+
+        List<Diary> diaryList=diaryService.readDiary(LocalDate.parse("2022-07-22"));
+
+        assertEquals(diaryList.size(),1);
+
+    }
+
+    @Test
+    void updateDiarySuccess(){
+        given(diaryRepository.getFirstByDate(LocalDate.parse("2022-07-22")))
+                .willReturn( Diary.builder().
+                        weather("humid").
+                        icon("icon1")
+                        .temperature(10d)
+                        .text("hello")
+                        .date(LocalDate.parse("2022-07-22")).
+                        build());
+
+        //when
+        Diary diary=diaryService.updateDiary(LocalDate.parse("2022-07-22"),"수정댐!");
+
+        assertEquals(diary.getText(),"수정댐!");
+    }
+
+
 
 }
