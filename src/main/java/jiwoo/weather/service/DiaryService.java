@@ -8,6 +8,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -15,6 +16,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -118,4 +120,36 @@ public class DiaryService {
 
     }
 
+
+    //날짜로 다이어리 조회하기
+    public List<Diary> readDiary(LocalDate date) {
+
+        return diaryRepository.findByDate(date);
+    }
+
+    public List<Diary> readDiaries(LocalDate startDate,LocalDate endDate){
+        return diaryRepository.findAllByDateBetween(startDate,endDate);
+    }
+
+    public Diary updateDiary(LocalDate date, String text) {
+        Diary diary=diaryRepository.getFirstByDate(date);
+
+        //수정하기
+        diary.setText(text);
+        //id값이 있는 상태에서 save하면 row 추가 안됨
+        diaryRepository.save(diary);
+
+        return diary;
+    }
+
+    @Transactional
+    //삭제하기
+    public String deleteDiary(LocalDate date) {
+       diaryRepository.deleteAllByDate(date);
+
+
+
+        return "삭제 완료";
+
+    }
 }
