@@ -168,9 +168,9 @@ public class DiaryService {
     public List<Diary> readDiary(LocalDate date) {
 
         //예외처리
-        if (date.isAfter(LocalDate.ofYearDay(3050,1))){
-            throw new InvalidDateException();
-        }
+//        if (date.isAfter(LocalDate.ofYearDay(3050,1))){
+//            throw new InvalidDateException();
+//        }
         return diaryRepository.findByDate(date);
     }
 
