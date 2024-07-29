@@ -35,3 +35,6 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### 깃허브에 로그 올림 방지
+logs
