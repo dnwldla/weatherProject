@@ -5,8 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
-import org.antlr.v4.runtime.misc.NotNull;
 
 import java.time.LocalDate;
 
@@ -24,6 +24,7 @@ public class Diary {
    private String weather;
    private String icon;
    private double temperature;
+   @NotNull
    private String text;
    private LocalDate date;
 

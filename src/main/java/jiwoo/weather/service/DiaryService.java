@@ -70,12 +70,11 @@ public class DiaryService {
     }
 
 
-    @Transactional(isolation = Isolation.SERIALIZABLE)
+    @Transactional
     public void createDiary(LocalDate date,String text) {
         //로그 찍기
         logger.info("started to create diary");
         //비교
-        System.out.println("프린트로 started to create diary");
         //날씨 데이터 가져오기
         String weatherData=getWeatherString();
 
@@ -164,7 +163,7 @@ public class DiaryService {
 
 
     //날짜로 다이어리 조회하기
-    @Transactional(readOnly=true)
+    //@Transactional(readOnly=true)
     public List<Diary> readDiary(LocalDate date) {
 
         //예외처리

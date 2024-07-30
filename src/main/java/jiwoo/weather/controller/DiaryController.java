@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -22,7 +23,7 @@ public class DiaryController {
 
     @PostMapping("/create/diary")
     void createDiary(@RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date, @RequestBody String text){
-            diaryService.createDiary(date,text);
+        diaryService.createDiary(date,text);
     }
 
     //특정 날짜의 다이어리 조회하기
